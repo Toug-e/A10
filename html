@@ -1,56 +1,55 @@
 <DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Cookie Pop up</title>
-        </head>
-        <body>
-              <!-- Pop-up Box with Input -->
-  <div id="popupOverlay">
-    <div class="popup-box">
-      <h3>Enter Cookie Value</h3>
-      <input type="text" id="cookieInput" placeholder="Type something..." />
-      <button onclick="saveCookie()">Save & Submit</button>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Pop up</title>
+    <link rel="stylesheet" href="css">
+</head>
+<body>
+    <!-- Pop-up Box with Input -->
+    <div id="popupOverlay">
+        <div class="popup-box">
+            <h3>Enter Cookie Value</h3>
+            <input type="text" id="cookieInput" placeholder="Type something..." />
+            <button onclick="saveCookie()">Save & Submit</button>
+        </div>
     </div>
-  </div>
+    <div id="displayContainer">
+        <strong>Saved Cookie Value:</strong> <span id="cookieOutput"></span>
+    </div>
 
-  
-  <div id="displayContainer">
-    <strong>Saved Cookie Value:</strong> <span id="cookieOutput"></span>
-  </div>
+    <script>
+        const COOKIE_NAME = "userEntry";
 
-  <script>
-    const COOKIE_NAME = "userEntry";
-
-    // Helper to read a specific cookie by name
-    function getCookie(name) {
-      const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-      return match ? decodeURIComponent(match[2]) : null;
+        //Helper to read a specific cookie by name
+        function getCookie(name) {
+        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        return match ? decodeURIComponent(match[2]) : null;
     }
 
-    // Save the input value into a cookie (expires in 7 days)
-    function saveCookie() {
-      const val = document.getElementById("cookieInput").value.trim();
-      if (!val) return;
+    //Save the input value into a cookie (expires in 7 days) 
+        function saveCookie() {
+        const val = document.getElementById("cookieInput").value.trim();
+        if (!val) return;
 
-      const maxAge = 60 * 60 * 24 * 7; // 7 days in seconds
-      document.cookie = `${COOKIE_NAME}=${encodeURIComponent(val)}; max-age=${maxAge}; path=/`;
+        const maxAge = 60 * 60 * 24 * 7; // 7 days in seconds
+        document.cookie = `${COOKIE_NAME}=${encodeURIComponent(val)}; max-age=${maxAge}; path=/`;
 
-      showSavedValue(val);
+        showSavedValue(val);
     }
 
-    // Hide the pop-up and display the saved text
-    function showSavedValue(val) {
-      document.getElementById("popupOverlay").style.display = "none";
-      document.getElementById("cookieOutput").textContent = val;
-      document.getElementById("displayContainer").style.display = "block";
+    //Hide the pop-up and display the saved text
+        function showSavedValue(val) {
+        document.getElementById("popupOverlay").style.display = "none";
+        document.getElementById("cookieOutput").textContent = val;
+        document.getElementById("displayContainer").style.display = "block";
     }
 
-    // Check cookie status on page load/refresh
-    window.onload = function () {
-      const savedValue = getCookie(COOKIE_NAME);
-      if (savedValue) {
+    //Check cookie status on page load/refresh
+        window.onload = function () {
+        const savedValue = getCookie(COOKIE_NAME);
+        if (savedValue) {
         showSavedValue(savedValue);
       } else {
         document.getElementById("popupOverlay").style.display = "flex";
